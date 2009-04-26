@@ -63,8 +63,10 @@ module Grit
         name = config['user.name']
         email = config['user.email']
       end
-    
-      author_string = "#{name} <#{email}> #{Time.now.to_i} -0700" # !! TODO : gotta fix this
+
+      author_date = DateTime.parse(ENV['GIT_AUTHOR_DATE']) rescue Time.now
+
+      author_string = "#{name} <#{email}> #{author_date.strftime("%s %z")}" # !! TODO : gotta fix this
       contents << ['author', author_string].join(' ')
       contents << ['committer', author_string].join(' ')
       contents << ''
